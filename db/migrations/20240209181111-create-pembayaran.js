@@ -7,31 +7,31 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      id_metode - pembayaran: {
-        type: Sequelize.STRING
+      id_metode_pembayaran: {
+        type: Sequelize.STRING,
       },
       total_pembayaran: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       tanggal_pembayaran: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       status_pembayaran: {
-        type: Sequelize.ENUM
+        type: Sequelize.ENUM(['Gagal', 'Pending', 'Berhasil']),
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('pembayarans');
-  }
+  },
 };
