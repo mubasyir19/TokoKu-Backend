@@ -1,7 +1,7 @@
 const { kategori, produk } = require('../../db/models');
 
 module.exports = {
-  listCategory: async (req, res, next) => {
+  getAllCategory: async (req, res, next) => {
     try {
       const categories = await kategori.findAll({
         attributes: ['id', 'nama_kategori'],
