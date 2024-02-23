@@ -8,6 +8,11 @@ module.exports = {
   login: async (req, res, next) => {
     const { usernameEmail, password } = req.body;
     try {
+      if (!usernameEmail || !password) {
+        res.status(400).json({ message: 'all input is required' });
+        return;
+      }
+
       let user;
       if (usernameEmail.includes('@')) {
         user = await pelanggan.findOne({ where: { email: usernameEmail } });
@@ -46,9 +51,19 @@ module.exports = {
     try {
       const { email, username, password, nama_pelanggan, alamat, no_telepon, confirmPassword } = req.body;
 
+      if (!email || !username || !password || !nama_pelanggan || !alamat || !no_telepon || !confirmPassword) {
+        res.status(400).json({
+          error: 'Error has been occured',
+          message: 'all input is required',
+        });
+        return;
+      }
+
       const checkEmail = await pelanggan.findOne({ where: { email: email } });
       if (checkEmail) {
-        res.status(403).json({ message: 'Email has been registered' });
+        res.status(403).json({
+          message: 'Email has been registered',
+        });
       }
 
       const checkUsername = await pelanggan.findOne({ where: { username: username } });
