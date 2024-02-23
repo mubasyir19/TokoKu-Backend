@@ -9,7 +9,7 @@ router.post('/login', customer.login);
 router.post('/register', customer.register);
 
 // Category
-router.get('/categories', category.listCategory);
+router.get('/categories', category.getAllCategory);
 router.get('/category/:id', category.getCategory);
 
 module.exports = router;
