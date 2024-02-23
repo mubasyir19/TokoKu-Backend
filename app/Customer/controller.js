@@ -23,6 +23,7 @@ module.exports = {
             userLogin: {
               id: user.id,
               email: user.email,
+              username: user.username,
               nama_pelanggan: user.nama_pelanggan,
               alamat: user.alamat,
               no_telepon: user.no_telepon,
