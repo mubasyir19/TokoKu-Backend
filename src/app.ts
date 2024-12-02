@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import router from './routes/router';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -7,7 +7,7 @@ import morgan from 'morgan';
 const app: Express = express();
 const port = process.env.PORT || 5000;
 
-dotenv.config();
+config();
 
 app.use(cors());
 app.use(express.json());
