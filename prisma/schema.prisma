@@ -61,7 +61,7 @@ model Cart {
   id         String   @id @default(uuid())
   userId     String
   productId  String
-  quantioy   Int      @db.Int
+  quantity   Int      @db.Int
   totalPrice Decimal  @db.Decimal()
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
