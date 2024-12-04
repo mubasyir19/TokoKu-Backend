@@ -49,6 +49,7 @@ model Product {
   description String?  @db.LongText
   price       Decimal  @db.Decimal()
   stock       Int      @db.Int
+  unit        String   @db.VarChar(255)
   photo       String   @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
