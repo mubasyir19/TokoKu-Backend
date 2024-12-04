@@ -7,6 +7,7 @@ import {
   productByCategory,
   searchProduct,
 } from '../controllers/product/product.controller';
+import { addCategory, getCategories } from '../controllers/category/category.controller';
 
 const router = Router();
 
@@ -17,6 +18,9 @@ router.get('/hello', (res: Response) => {
 router.post('/user/signup', signup);
 router.post('/user/signin', signin);
 router.post('/user/profile/:username', profile);
+
+router.get('/category', getCategories);
+router.post('/category/add', addCategory);
 
 router.get('/product', getProducts);
 router.get('/product/:id', getProductById);
