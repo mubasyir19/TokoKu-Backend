@@ -1,6 +1,7 @@
 import { Response, Router } from 'express';
 import { profile, signin, signup } from '../controllers/user/user.controller';
 import {
+  addProduct,
   getProductById,
   getProducts,
   productByCategory,
@@ -19,6 +20,7 @@ router.post('/user/profile/:username', profile);
 
 router.get('/product', getProducts);
 router.get('/product/:id', getProductById);
+router.post('/product/add', addProduct);
 router.get('/product/search/:query', searchProduct);
 router.get('/product/:category', productByCategory);
 

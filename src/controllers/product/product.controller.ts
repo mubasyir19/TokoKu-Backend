@@ -44,6 +44,34 @@ export const getProductById = async (req: Request, res: Response): Promise<Respo
   }
 };
 
+export const addProduct = async (req: Request, res: Response): Promise<Response | any> => {
+  const { name, categoryId, description, price, stock, photo } = req.body;
+  try {
+    const newData = await prisma.product.create({
+      data: {
+        name,
+        categoryId,
+        description,
+        price,
+        stock,
+        photo,
+      },
+    });
+
+    return res.status(201).json({
+      status: 201,
+      message: 'success add product',
+      data: newData,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: 'failed get produt',
+      data: null,
+    });
+  }
+};
+
 export const searchProduct = async (req: Request, res: Response): Promise<Response | any> => {
   const { query } = req.params;
   try {
