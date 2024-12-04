@@ -106,20 +106,53 @@ export const searchProduct = async (req: Request, res: Response): Promise<Respon
 
 export const productByCategory = async (req: Request, res: Response): Promise<Response | any> => {
   const { category } = req.params;
+
+  if (!category) {
+    return res.status(400).json({
+      status: 400,
+      message: 'Category parameter is missing',
+      data: null,
+    });
+  }
+
   try {
     const result = await prisma.categoryProduct.findMany({
       where: {
         name: category,
       },
-      include: {
+      select: {
+        name: true,
         Product: true,
       },
     });
 
+    if (result.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: 'No products found for the specified category',
+        data: [],
+      });
+    }
+
+    const formattedResult = result.map((item) => ({
+      category: item.name,
+      products: item.Product.map((product) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description || 'No description available',
+        price: product.price, // Mengonversi harga ke number
+        stock: product.stock,
+        unit: product.unit,
+        photo: product.photo,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      })),
+    }));
+
     return res.status(200).json({
       status: 200,
       message: 'success get products by category',
-      data: result,
+      data: formattedResult,
     });
   } catch (error) {
     return res.status(500).json({
