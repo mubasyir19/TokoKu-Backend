@@ -111,3 +111,55 @@ export const addItemCart = async (req: Request, res: Response): Promise<Response
     });
   }
 };
+
+export const updateItemCart = async (req: Request, res: Response): Promise<Response | any> => {
+  const { userId, productId, quantity } = req.body;
+  try {
+    if (!userId || !productId || typeof quantity !== 'number') {
+      return res.status(400).json({
+        status: 400,
+        message: 'invalid request',
+        data: null,
+      });
+    }
+
+    const checkProduct = await prisma.product.findFirst({
+      where: { id: productId },
+    });
+
+    if (!checkProduct) {
+      return res.status(400).json({
+        status: 400,
+        message: 'product not found',
+        data: null,
+      });
+    }
+
+    const newTotalPrice = Number(checkProduct?.price) * quantity;
+
+    const updatedCart = await prisma.cart.update({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+      data: {
+        quantity,
+        totalPrice: newTotalPrice,
+      },
+    });
+
+    return res.status(200).json({
+      status: 200,
+      message: 'success add product to cart',
+      data: updatedCart,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: 'failed add data',
+      data: null,
+    });
+  }
+};

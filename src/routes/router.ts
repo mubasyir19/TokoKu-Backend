@@ -8,7 +8,7 @@ import {
   searchProduct,
 } from '../controllers/product/product.controller';
 import { addCategory, getCategories } from '../controllers/category/category.controller';
-import { addItemCart, getCart } from '../controllers/cart/cart.controller';
+import { addItemCart, getCart, updateItemCart } from '../controllers/cart/cart.controller';
 
 const router = Router();
 
@@ -31,5 +31,6 @@ router.get('/product/category/:category', productByCategory);
 
 router.get('/cart', getCart);
 router.post('/cart/add', addItemCart);
+router.put('/cart/update', updateItemCart);
 
 export default router;
