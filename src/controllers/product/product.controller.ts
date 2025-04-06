@@ -32,7 +32,7 @@ export const getProductById = async (req: Request, res: Response): Promise<Respo
 
     return res.status(200).json({
       status: 200,
-      message: 'success get product',
+      message: 'success get detail product',
       data: product,
     });
   } catch (error) {

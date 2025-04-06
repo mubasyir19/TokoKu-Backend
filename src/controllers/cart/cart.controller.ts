@@ -48,6 +48,14 @@ export const addItemCart = async (req: Request, res: Response): Promise<Response
   try {
     const { userId, productId, quantity: reqQuantity } = req.body;
 
+    if (!userId || !productId || typeof reqQuantity !== 'number') {
+      return res.status(400).json({
+        status: 400,
+        message: 'invalid request',
+        data: null,
+      });
+    }
+
     const checkProduct = await prisma.product.findFirst({
       where: { id: productId },
     });
@@ -69,7 +77,6 @@ export const addItemCart = async (req: Request, res: Response): Promise<Response
         userId_productId: { userId, productId },
       },
     });
-    console.log('ini exist baru', existing);
 
     if (existing) {
       const newQuantity = existing.quantity + quantity;
@@ -80,12 +87,21 @@ export const addItemCart = async (req: Request, res: Response): Promise<Response
           totalPrice: Number(price) * newQuantity,
         },
       });
-      res.json(updated);
+
+      return res.status(200).json({
+        status: 200,
+        message: 'success update product cart',
+        data: updated,
+      });
     } else {
       const created = await prisma.cart.create({
         data: { userId, productId, quantity: quantity || 1, totalPrice: itemTotalPrice },
       });
-      res.json(created);
+      return res.status(201).json({
+        status: 201,
+        message: 'success add product to cart',
+        data: created,
+      });
     }
   } catch (error) {
     return res.status(500).json({
