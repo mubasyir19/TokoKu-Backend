@@ -163,3 +163,26 @@ export const updateItemCart = async (req: Request, res: Response): Promise<Respo
     });
   }
 };
+
+export const removeItemCart = async (req: Request, res: Response): Promise<Response | any> => {
+  const { idCart } = req.body;
+  try {
+    const remove = await prisma.cart.delete({
+      where: {
+        id: idCart,
+      },
+    });
+
+    return res.status(200).json({
+      status: 200,
+      message: 'success remove item cart',
+      data: remove,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: 'failed remove data',
+      data: null,
+    });
+  }
+};
