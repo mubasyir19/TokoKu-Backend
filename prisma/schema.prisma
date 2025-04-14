@@ -78,13 +78,17 @@ model Cart {
 }
 
 model Order {
-  id        String      @id @default(uuid())
-  userId    String
-  paymentId String
-  dateOrder DateTime
-  status    OrderStatus @default(PENDING)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id            String        @id @default(uuid())
+  userId        String
+  paymentId     String
+  address       String        @db.Text
+  phoneNumber   String        @db.Char(13)
+  methodPayment PaymentMethod @default(Cash)
+  dateOrder     DateTime
+  status        OrderStatus   @default(PENDING)
+  price         Decimal       @db.Decimal()
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   user      User        @relation(fields: [userId], references: [id])
   OrderItem OrderItem[]
@@ -108,7 +112,7 @@ model OrderItem {
   orderId   String
   productId String
   quantity  Int      @db.Int
-  price     Decimal  @db.Decimal()
+  subTotal  Decimal  @db.Decimal()
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
