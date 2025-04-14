@@ -80,7 +80,6 @@ model Cart {
 model Order {
   id            String        @id @default(uuid())
   userId        String
-  paymentId     String
   address       String        @db.Text
   phoneNumber   String        @db.Char(13)
   methodPayment PaymentMethod @default(Cash)
