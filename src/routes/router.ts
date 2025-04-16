@@ -19,7 +19,7 @@ router.get('/hello', (res: Response) => {
 
 router.post('/user/signup', signup);
 router.post('/user/signin', signin);
-router.post('/user/profile/:username', profile);
+router.get('/user/profile/:username', profile);
 
 router.get('/category', getCategories);
 router.post('/category/add', addCategory);

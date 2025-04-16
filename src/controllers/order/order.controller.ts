@@ -45,6 +45,7 @@ export const checkoutCart = async (req: Request, res: Response): Promise<Respons
       data: order,
     });
   } catch (error) {
+    console.log('kenapa = ', error);
     return res.status(500).json({
       status: 500,
       message: 'failed checkout',

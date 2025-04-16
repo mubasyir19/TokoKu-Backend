@@ -19,6 +19,10 @@ export const getCart = async (req: Request, res: Response): Promise<Response | a
       where: {
         userId,
       },
+      include: {
+        product: true,
+        user: true,
+      },
     });
 
     let totalAmount = new Decimal(0);

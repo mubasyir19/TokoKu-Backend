@@ -116,7 +116,7 @@ export const profile = async (req: Request, res: Response): Promise<Response | a
 
     return res.status(200).json({
       status: 200,
-      message: 'login successfully',
+      message: 'success get profile',
       data: {
         id: result?.id,
         name: result?.name,
