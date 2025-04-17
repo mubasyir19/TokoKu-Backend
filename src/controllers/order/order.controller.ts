@@ -3,52 +3,36 @@ import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
-export const checkoutCart = async (req: Request, res: Response): Promise<Response | any> => {
-  const { userId, address, phoneNumber, methodPayment, items, price } = req.body;
+export const getOrrder = async (req: Request, res: Response): Promise<Response | any> => {
+  const { userId } = req.params;
   try {
-    if (!userId || !items || items.length === 0 || !price) {
+    if (!userId) {
       return res.status(400).json({
         status: 400,
-        message: 'Data tidak lengkap',
+        message: 'UserId is required',
         data: null,
       });
     }
 
-    const order = await prisma.order.create({
-      data: {
-        dateOrder: new Date(),
+    const order = await prisma.order.findMany({
+      where: {
         userId,
-        address,
-        phoneNumber,
-        methodPayment,
-        price,
-        OrderItem: {
-          create: items.map((item: any) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            subTotal: item.subTotal,
-          })),
-        },
       },
       include: {
+        user: true,
         OrderItem: true,
       },
     });
 
-    await prisma.cart.deleteMany({
-      where: { userId },
-    });
-
-    return res.status(201).json({
-      status: 201,
-      message: 'success checkout',
+    return res.status(200).json({
+      status: 200,
+      message: 'success get order',
       data: order,
     });
   } catch (error) {
-    console.log('kenapa = ', error);
     return res.status(500).json({
       status: 500,
-      message: 'failed checkout',
+      message: 'failed get data',
       data: null,
     });
   }

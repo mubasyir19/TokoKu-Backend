@@ -8,8 +8,14 @@ import {
   searchProduct,
 } from '../controllers/product/product.controller';
 import { addCategory, getCategories } from '../controllers/category/category.controller';
-import { addItemCart, getCart, removeItemCart, updateItemCart } from '../controllers/cart/cart.controller';
-import { checkoutCart } from '../controllers/order/order.controller';
+import {
+  addItemCart,
+  checkoutCart,
+  getCart,
+  removeItemCart,
+  updateItemCart,
+} from '../controllers/cart/cart.controller';
+import { getOrrder } from '../controllers/order/order.controller';
 
 const router = Router();
 
@@ -35,5 +41,7 @@ router.post('/cart/add', addItemCart);
 router.put('/cart/update', updateItemCart);
 router.delete('/cart/delete', removeItemCart);
 router.post('/cart/checkout', checkoutCart);
+
+router.get('/order/:userId', getOrrder);
 
 export default router;
