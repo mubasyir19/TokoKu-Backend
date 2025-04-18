@@ -77,6 +77,10 @@ model Cart {
   @@unique([userId, productId], name: "userId_productId")
 }
 
+enum PaymentMethod {
+  Cash
+  Transfer
+}
 model Order {
   id            String        @id @default(uuid())
   userId        String
@@ -124,14 +128,8 @@ model Payment {
   date      DateTime
   total     Decimal       @db.Decimal()
   status    PaymentStatus @default(Pending)
-  method    PaymentMethod @default(Cash)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
-}
-
-enum PaymentMethod {
-  Cash
-  Transfer
 }
 
 enum PaymentStatus {

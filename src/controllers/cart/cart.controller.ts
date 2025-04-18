@@ -194,7 +194,8 @@ export const removeItemCart = async (req: Request, res: Response): Promise<Respo
 export const checkoutCart = async (req: Request, res: Response): Promise<Response | any> => {
   const { userId, address, phoneNumber, methodPayment, items, price } = req.body;
   try {
-    if (!userId || !items || items.length === 0 || !price) {
+    console.log('payment = ', methodPayment);
+    if (!userId || !items || items.length === 0 || !price || !methodPayment) {
       return res.status(400).json({
         status: 400,
         message: 'Data tidak lengkap',

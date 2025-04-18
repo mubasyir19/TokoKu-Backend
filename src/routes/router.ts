@@ -1,5 +1,5 @@
 import { Response, Router } from 'express';
-import { profile, signin, signup } from '../controllers/user/user.controller';
+import { profile, registAdmin, signin, signup } from '../controllers/user/user.controller';
 import {
   addProduct,
   getProductById,
@@ -15,7 +15,7 @@ import {
   removeItemCart,
   updateItemCart,
 } from '../controllers/cart/cart.controller';
-import { getOrrder } from '../controllers/order/order.controller';
+import { getOrder, getOrderAll } from '../controllers/order/order.controller';
 
 const router = Router();
 
@@ -26,6 +26,7 @@ router.get('/hello', (res: Response) => {
 router.post('/user/signup', signup);
 router.post('/user/signin', signin);
 router.get('/user/profile/:username', profile);
+router.post('/user/admin', registAdmin);
 
 router.get('/category', getCategories);
 router.post('/category/add', addCategory);
@@ -42,6 +43,7 @@ router.put('/cart/update', updateItemCart);
 router.delete('/cart/delete', removeItemCart);
 router.post('/cart/checkout', checkoutCart);
 
-router.get('/order/:userId', getOrrder);
+router.get('/order', getOrderAll);
+router.get('/order/:userId', getOrder);
 
 export default router;

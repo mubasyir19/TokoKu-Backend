@@ -134,3 +134,48 @@ export const profile = async (req: Request, res: Response): Promise<Response | a
     });
   }
 };
+
+export const registAdmin = async (req: Request, res: Response): Promise<Response | any> => {
+  const { name, username, password, phoneNumber, address } = req.body;
+  try {
+    const checkUser = await prisma.user.findFirst({
+      where: {
+        username,
+      },
+    });
+
+    if (checkUser) {
+      return res.status(400).json({
+        status: 400,
+        message: 'An account has been registered',
+        data: null,
+      });
+    } else {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const newUser = await prisma.user.create({
+        data: {
+          name: name,
+          username: username,
+          password: hashedPassword,
+          phoneNumber: phoneNumber,
+          address: address,
+          role: 'Admin',
+        },
+      });
+
+      return res.status(201).json({
+        status: 201,
+        message: 'an account successfully register',
+        data: newUser,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: 'failed register account',
+      data: null,
+    });
+  }
+};
