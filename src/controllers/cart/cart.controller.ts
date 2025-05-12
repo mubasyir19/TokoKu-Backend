@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { Request, Response } from 'express';
+import { GenerateOrderCode } from '../../helpers/helper';
 
 const prisma = new PrismaClient();
 
@@ -192,10 +193,9 @@ export const removeItemCart = async (req: Request, res: Response): Promise<Respo
 };
 
 export const checkoutCart = async (req: Request, res: Response): Promise<Response | any> => {
-  const { userId, address, phoneNumber, methodPayment, items, price } = req.body;
+  const { userId, address, phoneNumber, methodPayment, items, total_price, admin_fee, shipping_fee } = req.body;
   try {
-    console.log('payment = ', methodPayment);
-    if (!userId || !items || items.length === 0 || !price || !methodPayment) {
+    if (!userId || !items || items.length === 0 || !total_price || !methodPayment) {
       return res.status(400).json({
         status: 400,
         message: 'Data tidak lengkap',
@@ -205,12 +205,15 @@ export const checkoutCart = async (req: Request, res: Response): Promise<Respons
 
     const order = await prisma.order.create({
       data: {
-        dateOrder: new Date(),
+        order_date: new Date(),
+        order_code: GenerateOrderCode(),
         userId,
         address,
         phoneNumber,
         methodPayment,
-        price,
+        admin_fee,
+        shipping_fee,
+        total_price,
         OrderItem: {
           create: items.map((item: any) => ({
             productId: item.productId,
@@ -223,6 +226,17 @@ export const checkoutCart = async (req: Request, res: Response): Promise<Respons
         OrderItem: true,
       },
     });
+
+    for (const item of items) {
+      await prisma.product.update({
+        where: { id: item.productId },
+        data: {
+          stock: {
+            decrement: item.quantity,
+          },
+        },
+      });
+    }
 
     await prisma.cart.deleteMany({
       where: { userId },

@@ -81,17 +81,24 @@ enum PaymentMethod {
   Cash
   Transfer
 }
+
 model Order {
-  id            String        @id @default(uuid())
-  userId        String
-  address       String        @db.Text
-  phoneNumber   String        @db.Char(13)
-  methodPayment PaymentMethod @default(Cash)
-  dateOrder     DateTime
-  status        OrderStatus   @default(PENDING)
-  price         Decimal       @db.Decimal()
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id              String        @id @default(uuid())
+  order_code      String        @db.Text
+  userId          String
+  address         String        @db.Text
+  phoneNumber     String        @db.Char(13)
+  methodPayment   PaymentMethod @default(Cash)
+  status          OrderStatus   @default(PENDING)
+  total_price     Decimal       @db.Decimal()
+  admin_fee       Decimal       @db.Decimal()
+  shipping_fee    Decimal       @db.Decimal()
+  order_date      DateTime
+  processing_date DateTime?
+  delivered_date  DateTime?
+  completed_date  DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
   user      User        @relation(fields: [userId], references: [id])
   OrderItem OrderItem[]
