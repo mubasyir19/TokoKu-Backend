@@ -1,5 +1,5 @@
 import { Response, Router } from 'express';
-import { profile, registAdmin, signin, signup } from '../controllers/user/user.controller';
+import { profile, protectedAuth, registAdmin, signin, signup } from '../controllers/user/user.controller';
 import {
   addProduct,
   getProductById,
@@ -16,6 +16,7 @@ import {
   updateItemCart,
 } from '../controllers/cart/cart.controller';
 import { getOrder, getOrderAll } from '../controllers/order/order.controller';
+import { verifyAuth } from '../middleware/auth';
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.post('/user/signup', signup);
 router.post('/user/signin', signin);
 router.get('/user/profile/:username', profile);
 router.post('/user/admin', registAdmin);
+router.get('/user/verify', verifyAuth, protectedAuth);
 
 router.get('/category', getCategories);
 router.post('/category/add', addCategory);
@@ -37,13 +39,13 @@ router.post('/product/add', addProduct);
 router.get('/product/search/:query', searchProduct);
 router.get('/product/category/:category', productByCategory);
 
-router.get('/cart', getCart);
-router.post('/cart/add', addItemCart);
-router.put('/cart/update', updateItemCart);
-router.delete('/cart/delete', removeItemCart);
-router.post('/cart/checkout', checkoutCart);
+router.get('/cart', verifyAuth, getCart);
+router.post('/cart/add', verifyAuth, addItemCart);
+router.put('/cart/update', verifyAuth, updateItemCart);
+router.delete('/cart/delete', verifyAuth, removeItemCart);
+router.post('/cart/checkout', verifyAuth, checkoutCart);
 
-router.get('/order', getOrderAll);
-router.get('/order/:userId', getOrder);
+router.get('/order', verifyAuth, getOrderAll);
+router.get('/order/:userId', verifyAuth, getOrder);
 
 export default router;

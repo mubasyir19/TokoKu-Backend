@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { RequestPayload } from '../../data-types';
 
 const prisma = new PrismaClient();
 
@@ -178,4 +179,12 @@ export const registAdmin = async (req: Request, res: Response): Promise<Response
       data: null,
     });
   }
+};
+
+export const protectedAuth = async (req: RequestPayload, res: Response): Promise<void> => {
+  res.status(200).json({
+    status: 200,
+    message: 'you can access this route',
+    data: req.user,
+  });
 };
