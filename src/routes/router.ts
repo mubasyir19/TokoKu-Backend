@@ -15,7 +15,7 @@ import {
   removeItemCart,
   updateItemCart,
 } from '../controllers/cart/cart.controller';
-import { getOrder, getOrderAll } from '../controllers/order/order.controller';
+import { detailOrder, getOrder, getOrderAll } from '../controllers/order/order.controller';
 import { verifyAuth } from '../middleware/auth';
 
 const router = Router();
@@ -47,5 +47,6 @@ router.post('/cart/checkout', verifyAuth, checkoutCart);
 
 router.get('/order', verifyAuth, getOrderAll);
 router.get('/order/:userId', verifyAuth, getOrder);
+router.get('/order/detail/:userId/:orderId', verifyAuth, detailOrder);
 
 export default router;

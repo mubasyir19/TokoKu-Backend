@@ -76,3 +76,37 @@ export const getOrderAll = async (req: Request, res: Response): Promise<Response
     });
   }
 };
+
+export const detailOrder = async (req: Request, res: Response): Promise<Response | any> => {
+  const { userId, orderId } = req.params;
+
+  try {
+    const order = await prisma.order.findFirst({
+      where: { userId, id: orderId },
+      include: {
+        OrderItem: {
+          include: {
+            product: true,
+          },
+        },
+        user: true,
+      },
+    });
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      message: 'success get detailorder',
+      data: order,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: 'failed get data',
+      data: null,
+    });
+  }
+};
