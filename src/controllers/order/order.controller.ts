@@ -78,11 +78,23 @@ export const getOrderAll = async (req: Request, res: Response): Promise<Response
 };
 
 export const detailOrder = async (req: Request, res: Response): Promise<Response | any> => {
-  const { userId, orderId } = req.params;
+  const { userId, orderCode } = req.params;
 
   try {
+    const checkUser = await prisma.user.findFirst({
+      where: { id: userId },
+    });
+
+    if (!checkUser) {
+      return res.status(404).json({
+        status: 404,
+        message: 'user not found',
+        data: null,
+      });
+    }
+
     const order = await prisma.order.findFirst({
-      where: { userId, id: orderId },
+      where: { userId, order_code: orderCode },
       include: {
         OrderItem: {
           include: {

@@ -47,6 +47,6 @@ router.post('/cart/checkout', verifyAuth, checkoutCart);
 
 router.get('/order', verifyAuth, getOrderAll);
 router.get('/order/:userId', verifyAuth, getOrder);
-router.get('/order/detail/:userId/:orderId', verifyAuth, detailOrder);
+router.get('/order/detail/:userId/:orderCode', verifyAuth, detailOrder);
 
 export default router;
