@@ -74,11 +74,16 @@ export const addProduct = async (req: Request, res: Response): Promise<Response 
 };
 
 export const searchProduct = async (req: Request, res: Response): Promise<Response | any> => {
-  const { query } = req.params;
+  const { keyword } = req.query;
   try {
     const result = await prisma.product.findMany({
       where: {
-        OR: [{ name: query }, { description: query }],
+        name: {
+          contains: keyword as string,
+        },
+      },
+      orderBy: {
+        name: 'asc',
       },
     });
 
@@ -96,6 +101,7 @@ export const searchProduct = async (req: Request, res: Response): Promise<Respon
       data: result,
     });
   } catch (error) {
+    console.log('kenapa error = ', error);
     return res.status(500).json({
       status: 500,
       message: 'failed get data',

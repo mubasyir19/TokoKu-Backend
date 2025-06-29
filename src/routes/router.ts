@@ -36,7 +36,7 @@ router.post('/category/add', addCategory);
 router.get('/product', getProducts);
 router.get('/product/detail/:id', getProductById);
 router.post('/product/add', addProduct);
-router.get('/product/search/:query', searchProduct);
+router.get('/product/search/', searchProduct);
 router.get('/product/category/:category', productByCategory);
 
 router.get('/cart', verifyAuth, getCart);
