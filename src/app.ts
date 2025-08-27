@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  res.json('TokoKu API (Toko Online API)');
 });
 
 app.listen(port, () => {
