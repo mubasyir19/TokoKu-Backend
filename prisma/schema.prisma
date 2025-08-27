@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -48,9 +48,9 @@ model Product {
   id          String   @id @default(uuid())
   categoryId  String
   name        String   @db.VarChar(255)
-  description String?  @db.LongText
+  description String?  @db.Text
   price       Decimal  @db.Decimal()
-  stock       Int      @db.Int
+  stock       Int      @db.Integer
   unit        String   @db.VarChar(255)
   photo       String   @db.Text
   createdAt   DateTime @default(now())
@@ -66,7 +66,7 @@ model Cart {
   id         String   @id @default(uuid())
   userId     String
   productId  String
-  quantity   Int      @db.Int
+  quantity   Int      @db.Integer
   totalPrice Decimal  @db.Decimal()
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -121,7 +121,7 @@ model OrderItem {
   id        String   @id @default(uuid())
   orderId   String
   productId String
-  quantity  Int      @db.Int
+  quantity  Int      @db.Integer
   subTotal  Decimal  @db.Decimal()
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
